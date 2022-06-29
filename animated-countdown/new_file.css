@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+*{
+	box-sizing: border-box;
+}
+
+body{
+	margin: 0;
+	overflow: hidden;
+	height: 100vh;
+	font-family: 'Roboto', sans-serif;
+}
+
+
+/*
+先写replay按钮，整体思路：先把图标放在右边并且设置为透明，后面通过
+增加按钮的padding-right，把按钮加进来，并且设置为不透明
+
+定位counter，final，添加 counter hide，添加 final show
+
+数字隐藏在120deg的位置，添加数字进场和出场动画
+*/
+
+#replay{
+	background-color: #3498DB;
+	color: aliceblue;
+	padding: 5px;
+	display: inline-block;
+	border: none;
+	transition:all 0.3s;
+	cursor: pointer;
+	border-radius: 3px;
+	text-align: center;
+}
+
+#replay span{
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	transition:all 0.3s;
+}
+
+#replay span::after{
+	content: '\00bb';
+	position: absolute;
+	top: 0;
+	right: -20px;
+	opacity: 0;
+	transition: 0.5s;
+}
+
+/* #replay:focus{
+	outline: none;
+}
+ */
+#replay:hover span{
+	padding-right: 25px;
+}
+#replay:hover span::after{
+	opacity: 1;
+	right: 0;
+}
+
+
+h4{
+	font-size: 20px;
+	margin: 5px;
+	text-transform: uppercase;
+}
+
+/* .counter 占据浏览器的中心位置 */
+.counter{
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+}
+
+/*隐藏counter*/
+.counter.hide{
+	transform: translate(-50%,-50%) scale(0);  /*这个得加，要不然couter还会显示*/
+	animation: hide 0.2s ease-out;
+}
+
+/*	scale(1)原来大小  scale(0)缩小至0  scale(2)原来大小2倍  */
+@keyframes hide {
+  0% {
+    transform: translate(-50%, -50%) scale(1); 
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+}
+
+
+/*定位final*/
+.final{
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%) scale(0);
+	text-align: center;
+}
+
+/*显示final*/
+.final.show{
+	transform: translate(-50%,-50%) scale(1);
+	animation: show 0.2s ease-out;
+}
+
+
+@keyframes show {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  30% {
+    transform: translate(-50%, -50%) scale(1.4);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/*设置数字大小*/
+.nums {
+  color: #3498db;
+  font-size: 50px;
+  position: relative;
+  overflow: hidden;
+  width: 250px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+/*数字一开始都转在120deg的位置，同时隐藏*/
+.nums span{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(120deg);
+	transform-origin: bottom center;
+}
+/*数字进场*/
+.nums span.in {
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: goIn 0.5s ease-in-out;
+}
+/*数字出场*/
+.nums span.out {
+  animation: goOut 0.5s ease-in-out;
+}
+/*进场的时候角度变化（120deg  -20deg  10deg 0deg）*/
+@keyframes goIn {
+  0% {
+    transform: translate(-50%, -50%) rotate(120deg);
+  }
+
+  30% {
+    transform: translate(-50%, -50%) rotate(-20deg);
+  }
+
+  60% {
+    transform: translate(-50%, -50%) rotate(10deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+} 
+/*出场的时候角度变化（0deg  20deg  -120deg ）*/
+@keyframes goOut {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  60% {
+    transform: translate(-50%, -50%) rotate(20deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(-120deg);
+  }
+}

@@ -1,0 +1,178 @@
+/*
+
+先写replay按钮，整体思路：先把图标放在右边并且设置为透明，后面通过
+增加按钮的padding-right，把按钮加进来，并且设置为不透明
+
+定位counter，final，添加 counter hide，添加 final show
+
+数字隐藏在120deg的位置，添加数字进场和出场动画
+
+*/
+
+*{
+	box-sizing: border-box;
+}
+
+body{
+	margin: 0;
+	overflow: hidden;
+	height: 100vh;
+	font-family: 'Roboto', sans-serif;
+}
+
+#replay{
+	background-color: #3498DB;
+	padding: 5px;
+	border-radius: 3px;
+	border: 0;
+	color: aliceblue;
+	text-align: center;
+	cursor: pointer;
+}
+
+/* #replay:focus{
+	outline: none;
+} */
+
+#replay span{
+	text-align: center;
+	position: relative;
+	transition: 0.3s;
+}
+
+/*在span后面加图标*/
+#replay span::after{
+	content: '\00bb';
+	position: absolute;
+	top: 0px;
+	right: -20px;
+	opacity: 0;
+	transition: 0.5s;
+}
+/* 鼠标悬浮时,span右内边距扩展 */
+#replay:hover span{
+	padding-right: 25px;
+}
+/* 鼠标悬浮时,图标right为0,并且显示图标 */
+#replay:hover span::after {
+	right: 0px;
+	opacity: 1;
+}
+
+/* counter居中 */
+.counter{
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	text-align: center;
+}
+/* counter隐藏时的动画 */
+.counter.hide{
+	/* display: none; */
+	transform: translate(-50%,-50%) scale(0);
+	animation:hide 0.3s ease-out;
+}
+
+@keyframes hide{
+	from{
+		transform: translate(-50%,-50%) scale(1);
+	}
+	to{
+		transform: translate(-50%,-50%) scale(0);
+	}
+}
+
+/* 设置字体大小 */
+h4{
+	font-size: 20px;
+	margin: 5px;
+	text-transform: uppercase;
+}
+
+.final{
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%) scale(0);
+	text-align: center;
+}
+
+/* 显示final */
+.final.show{
+	transform: translate(-50%,-50%) scale(1);
+	animation:show 0.2s ease-out;
+}
+
+@keyframes show{
+	0%{
+		transform: translate(-50%,-50%) scale(0);
+	}
+	30%{
+		transform: translate(-50%,-50%) scale(1.4);
+	}
+	100%{
+		transform: translate(-50%,-50%) scale(1);
+	}
+}
+
+
+/* 先用绝对定位把nums下的数字居中,然后在旋转120deg隐藏 */
+.nums{
+	position: relative;
+	overflow: hidden;
+	color: #3498db;
+	font-size: 50px;
+	width: 250px;
+	height: 50px;
+	margin-bottom: 20px;
+}
+
+.nums span{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform-origin: center bottom;
+	transform: translate(-50%,-50%) rotate(120deg);
+}
+/*数字进场 forwards最后停在0deg的地方*/
+.nums span.in{
+	/* transform: translate(-50%, -50%) rotate(0deg); */
+	animation: in 0.5s ease-in-out forwards;
+}
+
+@keyframes in{
+	0%{
+		transform: translate(-50%,-50%) rotate(120deg);
+	}
+	30% {
+	  transform: translate(-50%, -50%) rotate(-20deg);
+	}
+	
+	60% {
+	  transform: translate(-50%, -50%) rotate(10deg);
+	}
+	
+	100%{
+		transform: translate(-50%,-50%) rotate(0deg);
+	}
+}
+/*数字出场*/
+.nums span.out{
+	animation: out 0.5s ease-in-out;
+}
+
+
+@keyframes out{
+	0% {
+	  transform: translate(-50%, -50%) rotate(0deg);
+	}
+	
+	60% {
+	  transform: translate(-50%, -50%) rotate(20deg);
+	}
+	
+	100% {
+	  transform: translate(-50%, -50%) rotate(-120deg);
+	}
+}
